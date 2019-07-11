@@ -1,0 +1,23 @@
+// .About {
+
+// }
+// .Contact {
+
+// }
+// .FAQ {
+
+// }
+// .Home {
+
+// }
+.Products {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  min-height: 100%;
+  .aside {
+    grid-column: 1 / 2;
+  }
+  .Products {
+    grid-column: 2 / 3;
+  }
+}
