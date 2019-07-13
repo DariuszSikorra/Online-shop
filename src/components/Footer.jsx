@@ -4,7 +4,7 @@ import "./App.scss";
 
 const Footer = () => {
   return (
-    <div className="Footer">
+    <div className="footer">
       {/* <table>
         <thead>
           <tr>

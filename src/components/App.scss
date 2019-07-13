@@ -1,47 +1,48 @@
+//Layout:
 .App {
   text-align: center;
   display: grid;
   grid-template-rows: 7vh 1fr 5vh;
   min-height: 100vh;
   width: 100%;
-  header {
+  .navbar {
     grid-row: 1 / 2;
     display: flex;
-    justify-items: left;
     align-items: center;
-    .Navbar {
+    overflow: hidden;
+    .navigation {
+      display: block;
+      justify-items: left;
+    }
+    .loging {
+      margin: 0 0 0 auto;
     }
   }
   .page {
     grid-row: 2 / 3;
     background-color: darkgray;
   }
-  footer {
+  .footer {
     grid-row: 3 / 4;
     background-color: darkgray;
-    .Footer {
-      background-color: gray;
-      height: 100%;
-      table {
-        width: 80vw;
-        
-      }
+    background-color: gray;
+    height: 100%;
+    table {
+      width: 80vw;
     }
   }
 }
+// Bootstraps breakpoints:
+// Extra small devices Phones <768px
+// Small devices Tablets ≥768px
+// Medium devices Desktops ≥992px
+// Large devices Desktops ≥1200px
 
-.button {
-  // font-weight: 700;
-  text-decoration: none;
-  margin: 10px;
-  padding: 10px;
-  color: black;
-  border: 1px solid black;
-  // border: 1px solid #9e5b04;
-  border-radius: 10px;
-  // background-color: rgb(247, 182, 6);
-  // box-shadow: 3px -2px;
+@media screen and (max-width: 768px) {
 }
-.button:hover {
-  box-shadow: 2px 1px;
+@media screen and (max-width: 992px) {
+}
+@media screen and (max-width: 1200px) {
+}
+@media screen and (min-width: 1201px) {
 }
