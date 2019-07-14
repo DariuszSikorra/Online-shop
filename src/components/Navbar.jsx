@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { Button } from "./App.style";
 import "./App.scss";
 
-const Navbar = () => {
+const Navbar = props => {
   const routes = [
     { to: "/", name: "Home" },
     { to: "/products", name: "Produkty" },
@@ -24,7 +24,7 @@ const Navbar = () => {
       </div>
       <div className="loging">
         <NavLink key={"/basket"} to={"/basket"}>
-          <Button>Koszyk</Button>
+          <Button>Koszyk{props.basket.length <= 0 ? null : `: (${props.basket.length})`}</Button>
         </NavLink>
         <NavLink key={"/login"} to={"/login"}>
           <Button onClick={() => {alert("placeholder, login not ready yet!")}}>Logowanie</Button>

@@ -10,6 +10,7 @@ class Products extends Component {
   };
 
   handleSearch = e => {
+    //Connect to products array, use some sort methods
     this.setState({
       search: e.target.value
     });

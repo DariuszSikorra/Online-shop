@@ -18,7 +18,7 @@ class App extends Component {
     recommended: [],
     bestsellers: [],
     latelyWatched: [],
-    basket: []
+    basket: [],
   };
 
   componentWillMount = () => {
@@ -34,23 +34,26 @@ class App extends Component {
       });
   };
 
-  handleAddToBasket = e => {
+  handleQuantityChange = () => {
+    //multiplay products in add to cart
+  }
+
+  handleAddToBasket = id => {
     //connect with quantityChange handler
     //handle adding to bestsellers, take in mind  quantity of products
-    const products = this.state.products;
-    products.map(product => {
-      if (e.target.id === product.id) {
-      }
-    });
+    //make quantity property in object, whitch send to basket and reset in App object
+    const choosedProduct = this.state.products
+    console.log("działa")
+    const filtredProduct = choosedProduct.filter(product => product.id === id)
+    this.setState({
+      basket: this.state.basket.concat(filtredProduct)
+    })
+    console.log(this.state.basket)
   };
 
   handleRemoveFormBasket = () => {
     //delete items from basket
     //remove items from bestsellers array
-  };
-
-  handleQuantityChange = () => {
-    //multiplay products in add to cart
   };
 
   handleModal = () => {
@@ -84,7 +87,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <Navbar />
+          <Navbar basket={this.state.basket} />
           <div className="page">
             <Switch>
               <Route

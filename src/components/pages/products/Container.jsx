@@ -1,9 +1,7 @@
 import React from "react";
 import { Card } from "../../App.style";
-import { useState } from "react";
 
 const Container = props => {
-  const [value, setValue] = useState(0);
 
   const products = props.products.map(product => {
     return (
@@ -22,13 +20,13 @@ const Container = props => {
           Opis: {product.general.description.replace(/<\/?[^>]+(>|$)/g, "")}
         </p>
          */}
-        <input value={value} onChange={setValue} type="number" placeholder="ilość" />
-        <button>Kup</button>
+        <input value={props.value} onChange={props.quantityChange} type="number" placeholder="ilość" />
+        <button onClick={() => props.handleAddToBasket(product.id)}>Kup</button>
       </Card>
     );
   });
   return (
-    <div className="Products">
+    <div className="Container">
       <h2>Produkty:</h2>
       <ul>{products}</ul>
     </div>

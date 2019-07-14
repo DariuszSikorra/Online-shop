@@ -16,7 +16,12 @@ const SearchPanel = (props) => {
         <option value="Price">Cena</option>
       </Select>
       <hr/>
-      <p>Categories</p>
+      <p>Kategorie</p>
+      <Select>
+        <option>Tusze</option>
+        <option>Tonery</option>
+        <option>Akcesoria</option>
+      </Select>
     </div>
   );
 };
