@@ -1,9 +1,12 @@
-import React from "react";
+import React, {Component} from "react";
 import { Card } from "../../App.style";
 
-const Container = props => {
+class Container extends Component {
+// menage quantity changes in more than 2 cards in the same time
+// put condition (about undefined) in input value
 
-  const products = props.products.map(product => {
+render() { 
+  const products = this.props.products.map(product => {
     return (
       <Card key={product.id}>
         <img
@@ -20,8 +23,8 @@ const Container = props => {
           Opis: {product.general.description.replace(/<\/?[^>]+(>|$)/g, "")}
         </p>
          */}
-        <input value={props.value} onChange={props.quantityChange} type="number" placeholder="ilość" />
-        <button onClick={() => props.handleAddToBasket(product.id)}>Kup</button>
+        <input id={product.id} value={product.quantity} onChange={this.props.handleQuantityChange} type="number" placeholder="ilość" min="1" />
+        <button onClick={() => this.props.handleAddToBasket(product.id)}>Kup</button>
       </Card>
     );
   });
@@ -32,5 +35,5 @@ const Container = props => {
     </div>
   );
 };
-
+}
 export default Container;

@@ -1,18 +1,20 @@
 import React, { useState } from "react";
-import {Card} from "../App.style"
 
 const Basket = (props) => {
   const products = props.basket.map(product => {
     return (
-      <Card key={product.id}>
-        <p>{product.brand.name}</p>
-      </Card>
+      <li key={product.id}>
+        <p>
+          <span><img style={{width: 100, height: 100 }} src={product.images.primary.large} alt={product.brand.name}/></span>
+          <span>Nazwa produktu: {product.general.name}, </span>
+          <span>ID produktu: {product.id}</span></p>
+      </li>
     );
   });
   return (
     <div className="Container">
       <p>Zawartość koszyka:</p>
-      <p>{products}</p>
+      <ul>{products}</ul>
     </div>
   );
 };

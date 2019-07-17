@@ -24,6 +24,7 @@ class Products extends Component {
         </aside>
         <Container
           products={this.props.products}
+          value={this.props.value}
           handleAddToBasket={this.props.handleAddToBasket}
           handleRemoveFormBasket={this.props.handleRemoveFormBasket}
           handleQuantityChange={this.props.handleQuantityChange}
