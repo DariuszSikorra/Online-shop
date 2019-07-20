@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 
-const Basket = (props) => {
+const Basket = props => {
   const products = props.basket.map(product => {
+    let quantity = product.quantity
     return (
       <li key={product.id}>
         <p>
-          <span><img style={{width: 100, height: 100 }} src={product.images.primary.large} alt={product.brand.name}/></span>
+          <span>
+            <img
+              style={{ width: 100, height: 100 }}
+              src={product.images.primary.large}
+              alt={product.brand.name}
+            />
+          </span>
           <span>Nazwa produktu: {product.general.name}, </span>
-          <span>ID produktu: {product.id}</span></p>
+          <span>ID produktu: {product.id}, </span>
+          <span>Ilość produktów: {quantity}</span>
+        </p>
       </li>
     );
   });

@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import "./App.scss";
 
 import Navbar from "./Navbar";
+import Loading from "./Loading"
 import Home from "./pages/Home";
 import Products from "./pages/Products";
 import About from "./pages/About";
@@ -15,38 +16,39 @@ import Footer from "./Footer";
 class App extends Component {
   state = {
     products: [],
+    isLoaded: false,
     bestsellers: [],
     latelyWatched: [],
     basket: [],
-    random: null,
+    random: null
   };
 
-  componentWillMount = () => {
+  componentWillMount() {
     fetch("http://localhost:8000/products")
-    .then(res => res.json())
-    .catch(err =>
-      fetch("db.json")
       .then(res => res.json())
-      .then(data => data.products)
+      .catch(err =>
+        fetch("db.json")
+          .then(res => res.json())
+          .then(data => data.products)
       )
       .then(data => {
-        this.setState({ products: data });
-      })
+        this.setState({
+          products: data,
+          isLoaded: true,
+        });
+      });
   };
 
   handleQuantityChange = e => {
     //multiplay products in add to cart
-    let oldProducts = this.state.products
-    let products = oldProducts.map(product => 
-      ( e.target.id === product.id ?
-        { ...product, quantity: e.target.value }
-        :
-        { ...product, quantity: 1 }
-        )
-      )
+    let products = this.state.products.map(product =>
+      e.target.id === product.id
+        ? { ...product, quantity: e.target.value }
+        : { ...product, quantity: [] }
+    );
     this.setState({
       products
-    })
+    });
   };
 
   handleAddToBasket = id => {
@@ -58,7 +60,6 @@ class App extends Component {
     this.setState({
       basket: this.state.basket.concat(filtredProduct)
     });
-    console.log(this.state.basket);
   };
 
   handleRemoveFormBasket = () => {
@@ -71,7 +72,6 @@ class App extends Component {
     //handle adding to lastWatched, add to array by [ new , ...lastWatched]
   };
 
-
   handleBestsellers = () => {
     //handle choose 5 most buyed items from products object and push to bestsellers.
     //Maybe make clicker counter on buy, or buy in basket
@@ -83,12 +83,7 @@ class App extends Component {
   };
 
   render() {
-    const {
-      products,
-      bestsellers,
-      latelyWatched,
-      basket, value
-    } = this.state;
+    const { products, bestsellers, latelyWatched, basket } = this.state;
 
     return (
       <Router>
@@ -96,20 +91,27 @@ class App extends Component {
           <Navbar basket={this.state.basket} />
           <div className="page">
             <Switch>
-              <Route
-                path="/"
-                exact
-                render={props => (
-                  <Home
-                    {...props}
-                    products={products}
-                    bestsellers={bestsellers}
-                    latelyWatched={latelyWatched}
-                    handleAddToBasket={this.handleAddToBasket}
-                    handleQuantityChange={this.handleQuantityChange}
+              {/*find correct way to put Redirect with props*/}
+              <Route exact path="/" render={() => (
+                this.state.isLoaded ? (
+                  <Route
+                    path="/"
+                    exact
+                    render={props => (
+                      <Home
+                        {...props}
+                        products={products}
+                        bestsellers={bestsellers}
+                        latelyWatched={latelyWatched}
+                        handleAddToBasket={this.handleAddToBasket}
+                        handleQuantityChange={this.handleQuantityChange}
+                      />
+                    )}
                   />
-                )}
-              />
+                ) : (
+                    <Loading />
+                  )
+              )} />
               <Route
                 path="/products"
                 render={props => (
@@ -118,7 +120,6 @@ class App extends Component {
                     products={products}
                     handleAddToBasket={this.handleAddToBasket}
                     handleQuantityChange={this.handleQuantityChange}
-                    value={value}
                   />
                 )}
               />
