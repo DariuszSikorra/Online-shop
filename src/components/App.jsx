@@ -1,9 +1,14 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom";
 import "./App.scss";
 
 import Navbar from "./Navbar";
-import Loading from "./Loading"
+import Loading from "./Loading";
 import Home from "./pages/Home";
 import Products from "./pages/Products";
 import About from "./pages/About";
@@ -34,13 +39,12 @@ class App extends Component {
       .then(data => {
         this.setState({
           products: data,
-          isLoaded: true,
+          isLoaded: true
         });
       });
-  };
+  }
 
   handleQuantityChange = e => {
-    //multiplay products in add to cart
     let products = this.state.products.map(product =>
       e.target.id === product.id
         ? { ...product, quantity: e.target.value }
@@ -55,16 +59,46 @@ class App extends Component {
     //connect with quantityChange handler
     //handle adding to bestsellers, take in mind  quantity of products
     //make quantity property in object, whitch send to basket and reset in App object
+    const { basket } = this.state;
+
     const products = this.state.products;
-    const filtredProduct = products.filter(product => product.id === id);
+    const targetProduct = products.filter(product => product.id === id); // Object( [{...}] )
     this.setState({
-      basket: this.state.basket.concat(filtredProduct)
+      basket: basket.concat(targetProduct)
     });
+    // for (let i = 0; i <= basket.length; i++) {
+    //   // console.log(basket[i])
+    //   // console.log(targetProduct[0])
+    //   if (basket[i] !== targetProduct[0]) {
+    //     //Sytuation when item is not in bucket and quantity is not present
+    //     this.setState({
+    //       basket: basket.concat(targetProduct)
+    //     });
+    //     console.log("gatcha!");
+    //   } else if (targetProduct[0]) {
+    //     //sytuation when item is not in bucket and quanntity is choosed
+    //   } else if (basket[i].id === targetProduct[0].id) {
+    //     //sytuation when item is in bucket, and quantity is not present
+    //     console.log(basket[i]);
+    //     console.log(targetProduct[0]);
+    //     console.log("gatcha2!");
+    //   } else {
+    //     //sytuation when item is in bucket, and quantity is present
+    //     console.log("gatcha3")
+    //   }
+    // }
   };
 
-  handleRemoveFormBasket = () => {
+  handleRemoveFormBasket = id => {
     //delete items from basket
     //remove items from bestsellers array
+    const basket = this.state.basket;
+    const targetProduct = basket.filter(product => product.id === id); // Object( [{...}] )
+    basket.splice( basket.indexOf(targetProduct) ,1)
+    console.log(targetProduct)
+    this.setState({
+      basket
+    })
   };
 
   handleModal = () => {
@@ -92,26 +126,30 @@ class App extends Component {
           <div className="page">
             <Switch>
               {/*find correct way to put Redirect with props*/}
-              <Route exact path="/" render={() => (
-                this.state.isLoaded ? (
-                  <Route
-                    path="/"
-                    exact
-                    render={props => (
-                      <Home
-                        {...props}
-                        products={products}
-                        bestsellers={bestsellers}
-                        latelyWatched={latelyWatched}
-                        handleAddToBasket={this.handleAddToBasket}
-                        handleQuantityChange={this.handleQuantityChange}
-                      />
-                    )}
-                  />
-                ) : (
+              <Route
+                exact
+                path="/"
+                render={() =>
+                  this.state.isLoaded ? (
+                    <Route
+                      path="/"
+                      exact
+                      render={props => (
+                        <Home
+                          {...props}
+                          products={products}
+                          bestsellers={bestsellers}
+                          latelyWatched={latelyWatched}
+                          handleAddToBasket={this.handleAddToBasket}
+                          handleQuantityChange={this.handleQuantityChange}
+                        />
+                      )}
+                    />
+                  ) : (
                     <Loading />
                   )
-              )} />
+                }
+              />
               <Route
                 path="/products"
                 render={props => (

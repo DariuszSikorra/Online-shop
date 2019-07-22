@@ -30,3 +30,4 @@ List of main elements to do in App:
 Things to add in future:
 -Reconstruct app to use Redux, maybe Reactcontext
 -Make database with MongoDB and GraphQL
+-Consider usage of strong type languages-> typescript

@@ -1,6 +1,7 @@
 import React from "react";
 
 const Basket = props => {
+  console.log(props.basket)
   const products = props.basket.map(product => {
     let quantity = product.quantity
     return (
@@ -16,6 +17,7 @@ const Basket = props => {
           <span>Nazwa produktu: {product.general.name}, </span>
           <span>ID produktu: {product.id}, </span>
           <span>Ilość produktów: {quantity}</span>
+          <button onClick={() => props.handleRemoveFormBasket(product.id)}>Usuń</button>
         </p>
       </li>
     );

@@ -5,48 +5,58 @@ import "./Page.scss";
 
 class Home extends Component {
   state = {
-    recommended: []
+    number: 5,
+    recommended: [],
+    indexOfRecommended: []
   };
 
   componentDidMount() {
-    const range = this.props.products.length;
+    const { products } = this.props;
+    const {number} = this.state
+    
+    const range = products.length;
     const indexOfRecommended = [];
     const recommended = [];
-    for (let i = 0; i <= 4; i++) {
+    for (let i = 0; i < number; i++) {
       indexOfRecommended.push(Math.floor(range * Math.random()));
     }
-    indexOfRecommended.forEach(index =>
-      recommended.push(this.props.products[index])
-    );
+    indexOfRecommended.forEach(index => recommended.push(products[index]));
     this.setState({
-      recommended
+      recommended,
+      indexOfRecommended
     });
   }
 
   render() {
-    const recommendedProducts = this.state.recommended.map(product => {
-      return (
-        <Card key={product.id}>
-          <img
-            src={product.images.primary.large}
-            alt="Zdjęcie produktu nie zostało załadowane"
-            width="200px"
-            height="200px"
-          />
-          <p>Nazwa produktu: {product.general.name}</p>
-          <p>ID: {product.id}</p>
-          <input
-            value={product.quantity}
-            onChange={this.props.handleQuantityChange}
-            type="number"
-            placeholder="ilość"
-            min="1"
-          />
-          <button onClick={() => this.props.handleAddToBasket(product.id)}>
-            Kup
-          </button>
-        </Card>
-      );
+    const { recommended, indexOfRecommended } = this.state;
+    const { handleAddToBasket, handleQuantityChange, products } = this.props;
+
+    const recommendedProducts = products.map(product => {
+      for (let i = 0; i < indexOfRecommended.length; i++) {
+        if (product.id === recommended[i].id) {
+          return (
+            <Card key={product.id}>
+              <img
+                src={product.images.primary.large}
+                alt="Zdjęcie produktu nie zostało załadowane"
+                width="200px"
+                height="200px"
+              />
+              <p>Nazwa produktu: {product.general.name}</p>
+              <p>ID: {product.id}</p>
+              <input
+                id={product.id}
+                value={product.quantity}
+                onChange={handleQuantityChange}
+                type="number"
+                placeholder="ilość"
+                min="1"
+              />
+              <button onClick={() => handleAddToBasket(product.id)}>Kup</button>
+            </Card>
+          );
+        }
+      }
     });
 
     return (
