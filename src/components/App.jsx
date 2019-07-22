@@ -90,7 +90,6 @@ class App extends Component {
   };
 
   handleRemoveFormBasket = id => {
-    //delete items from basket
     //remove items from bestsellers array
     const basket = this.state.basket;
     const targetProduct = basket.filter(product => product.id === id); // Object( [{...}] )
